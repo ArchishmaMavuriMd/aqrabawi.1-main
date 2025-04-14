@@ -9,8 +9,8 @@
  *
  * Communication with OSS is done via a System V message queue.
  *
- * Author: [Your Name]
- * Date: [Date]
+  * Author: [Jad Aqrabawi]
+ * Date: [14/04/2025]
  */
 
  #include <stdio.h>

@@ -5,8 +5,8 @@
  * It launches child processes at random simulated intervals, dispatches them using an MLFQ
  * (with 3 levels), and logs scheduling events along with detailed process table and queue states.
  *
- * Author: [Your Name]
- * Date: [Date]
+ * Author: [Jad Aqrabawi]
+ * Date: [14/04/2025]
  */
 
  #include <stdio.h>

@@ -1,4 +1,4 @@
-# OS Process Scheduling Simulator
+# OS Process Scheduling Simulator 
 
 This project simulates process scheduling in an operating system using a multi-level feedback queue (MLFQ) scheduler, shared memory, and message queues.
 

@@ -26,6 +26,11 @@ Haneen2003
 
 ssh aqrabawi@opsys.cs.umsl.edu
 
+ssh aqrabawi@hoare.cs.umsl.edu
+
+cp -p -r aqrabawi.3 /home/hauschildm/cs4760/assignment3
+
+
 18252517
 aqrabawi
 

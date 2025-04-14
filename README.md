@@ -1,103 +1,43 @@
+# OS Process Scheduling Simulator
 
-# Simulated System Clock & Worker Process Coordination (aqrabawi.1-main)
+This project simulates process scheduling in an operating system using a multi-level feedback queue (MLFQ) scheduler, shared memory, and message queues.
 
-## Quick Start
+## Overview
 
-1. **Download or Clone the Project**  
-   Clone the repository using:
+- **OSS (Scheduler):**
+  - Manages a simulated system clock using shared memory.
+  - Maintains a process table (PCB) with scheduling details.
+  - Launches worker processes at random simulated intervals.
+  - Dispatches processes using an MLFQ with three levels:
+    - Level 0: Base time quantum (10 ms)
+    - Level 1: 2 × base quantum
+    - Level 2: 4 × base quantum
+  - Logs detailed scheduling events to a log file and outputs periodic snapshots of the process table and queues.
+
+- **Worker Processes:**
+  - Wait for a scheduling message from OSS.
+  - Simulate execution by choosing one of three outcomes:
+    - Run for full quantum
+    - Use part of the quantum (simulate I/O block)
+    - Terminate early
+  - Respond back to OSS through a message queue.
+
+## Build and Run
+
+1. **Build the Project:**
+
    ```bash
-   git clone https://github.com/Jadaqrabawi/aqrabawi.1-main.git
+   make
    ```
-   Or download and extract the project archive.
 
-2. **Navigate to the Project Directory**
+2. **Run OSS:**
+
    ```bash
-   cd aqrabawi.1-main-main
+   ./oss -n 100 -s 18 -i 100 -f oss.log
    ```
 
-3. **Clean the Project (Optional)**
-   ```bash
-   make clean
-   ```
-
-4. **Compile the Project**
-   ```bash
-   make all
-   ```
-
-5. **Run the Project**
-   ```bash
-   ./oss -n 20 -s 5 -t 7 -i 100 -f oss.log
-   ```
-
-# Operating System Simulation
-
-This project simulates an operating system coordinating worker processes using a shared clock, message queues, and round-robin scheduling.
-
-## Components
-
-- **oss (Simulator)**
-  - Maintains a simulated system clock in shared memory.
-  - Launches worker processes (up to a total `-n` with a concurrent limit `-s`).
-  - Communicates with workers via message queues in a round-robin fashion.
-  - Logs process events (launch, messaging, termination) to the terminal and a log file.
-
-- **worker**
-  - Attaches to the shared clock.
-  - Determines its termination time based on command-line parameters.
-  - Waits for a message from `oss`, prints status (clock time, iteration, termination time), and responds with its state.
-
-## Files
-
-- `oss.c`: Main simulator.
-- `worker.c`: Worker process.
-- `Makefile`: Build instructions.
-
-## Requirements
-
-- Unix-like OS (Linux, macOS, etc.)
-- GCC
-- Basic knowledge of using `make`
-
-## Compilation
-
-```bash
-make
-```
-
-## Usage
-
-```bash
-./oss -n <totalProcs> -s <simulLimit> -t <childTimeLimit> -i <launchIntervalMs> -f <logfile>
-```
-
-**Example:**
-
-```bash
-./oss -n 20 -s 5 -t 7 -i 100 -f oss.log
-```
-
-## Program Flow
-
-1. **Initialization:**  
-   Setup shared memory and message queue; clock starts at `0 s, 0 ns`.
-
-2. **Worker Launch:**  
-   Fork and exec worker processes using the provided parameters.
-
-3. **Messaging:**  
-   `oss` sends round-robin messages to workers, which check the clock, print status, and reply. Workers notify `oss` upon termination.
-
-4. **Logging:**  
-   Process events and a process table (with PID, start time, and message count) are logged.
-
-5. **Termination:**  
-   Ends after all workers finish or after 60 seconds; shared memory and queues are cleaned up.
+   OSS will launch up to 100 processes (with an 18-process concurrency limit) and log the scheduling events to `oss.log`.
 
 ## Cleanup
 
-```bash
-make clean
-```
-
----
+All IPC resources (shared memory and message queues) are cleaned up upon termination, ensuring no leftover resources.
